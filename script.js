@@ -1,24 +1,57 @@
-const email = document.getElementById("email")
-const password = document.getElementById("password")
+const loginForm = document.getElementById('loginForm');
+const loginUsername = document.getElementById('username');
+const loginPassword = document.getElementById('loginPassword');
 
-const text = document.getElementById("text")
-const signupEmail = document.getElementById("email1")
-const signupPassword = document.getElementById("password1")
+loginForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const username = loginUsername.value;
+    const password = loginPassword.value;
 
-const login = document.getElementById("submit")
+    const storedUsername = localStorage.getItem('regUsername');
+    const storedPassword = localStorage.getItem('regPassword');
 
-function Login(){
-    if (email.value == localStorage.getItem("email1") && password.value == localStorage.getItem("password1")){
-        alert("Login Successful.")
-        location.href = 'Home.html'
-    }else{
-        alert("Username or Password is Invalid.")
+    if (storedUsername === username && storedPassword === password) {
+        alert('Login successful!');
+        window.location.href = 'Home.html';
+    } else {
+        alert('Invalid username or password');
     }
-}
+});
 
-function Singup(){
-    localStorage.setItem('text', text.value)
-    localStorage.setItem('email1', signupEmail.value)
-    localStorage.setItem('password1', signupPassword.value)
-    alert("Registered Successfully.")
-}
+
+const registerLink = document.getElementById('registerLink');
+const loginLink = document.getElementById('loginLink');
+
+registerLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    loginForm.style.display = 'none';
+    registrationForm.style.display = 'block';
+});
+
+loginLink.addEventListener('click', function(event) {
+    event.preventDefault();
+    loginForm.style.display = 'block';
+    registrationForm.style.display = 'none';
+});
+
+const registrationForm = document.getElementById('registrationForm');
+const regUsername = document.getElementById('regUsername');
+const regEmail = document.getElementById('regEmail');
+const regPassword = document.getElementById('regPassword');
+
+registrationForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const username = regUsername.value;
+    const email = regEmail.value;
+    const password = regPassword.value;
+
+    localStorage.setItem('username', username);
+    localStorage.setItem('email', email);
+    localStorage.setItem('password', password);
+    alert('Registration successful!');
+
+    loginForm.style.display = 'block';
+    registrationForm.style.display = 'none';
+});
