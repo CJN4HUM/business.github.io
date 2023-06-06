@@ -8,10 +8,15 @@ loginForm.addEventListener('submit', function(event) {
     const username = loginUsername.value;
     const password = loginPassword.value;
 
-    const storedUsername = localStorage.getItem('regUsername');
-    const storedPassword = localStorage.getItem('regPassword');
+    const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
 
-    if (storedUsername === username && storedPassword === password) {
+    const matchedUser = storedUsers.find(user => user.username === username && user.password === password);
+
+    if (username === '') {
+        alert('Please fill out the username field.');
+    } else if (password === '') {
+        alert('Please fill out the password field.');
+    } else if (matchedUser) {
         alert('Login successful!');
         window.location.href = 'Home.html';
     } else {
@@ -47,11 +52,26 @@ registrationForm.addEventListener('submit', function(event) {
     const email = regEmail.value;
     const password = regPassword.value;
 
-    localStorage.setItem('username', username);
-    localStorage.setItem('email', email);
-    localStorage.setItem('password', password);
-    alert('Registration successful!');
+    if (username === '') {
+        alert('Please fill out the username field.');
+    } else if (email === '') {
+        alert('Please fill out the email field.');
+    } else if (password === '') {
+        alert('Please fill out the password field.');
+    } else {
+        const newUser = {
+            username: username,
+            email: email,
+            password: password
+        };
 
-    loginForm.style.display = 'block';
-    registrationForm.style.display = 'none';
+        const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+        storedUsers.push(newUser);
+        localStorage.setItem('users', JSON.stringify(storedUsers));
+        
+        alert('Registration successful!');
+
+        loginForm.style.display = 'block';
+        registrationForm.style.display = 'none';
+    }
 });
